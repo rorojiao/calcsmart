@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI计算器 — 在线身体质量指数计算 | CalcSmart</title>
+<meta name="description" content="免费BMI计算器：输入身高体重，即时计算BMI身体质量指数，提供健康建议和可视化标尺。">
+<meta name="keywords" content="BMI计算器,BMI在线计算,身体质量指数,体重指数计算,健康体重">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/bmi.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"BMI正常范围是多少？","acceptedAnswer":{"@type":"Answer","text":"WHO标准：18.5-24.9为正常。中国标准略有不同：18.5-23.9为正常。"}},
+{"@type":"Question","name":"BMI计算公式是什么？","acceptedAnswer":{"@type":"Answer","text":"BMI = 体重(kg) ÷ 身高(m)²。例如70kg、170cm：70÷1.7²=24.2"}},
+{"@type":"Question","name":"BMI有什么局限性？","acceptedAnswer":{"@type":"Answer","text":"BMI不区分肌肉和脂肪，运动员可能BMI偏高但体脂率正常。建议结合体脂率综合判断。"}}
+]}
+</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ <span data-t="siteName">CalcSmart 智算</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav">
+<a href="index.html" data-t="home">首页</a>
+<a href="mortgage.html" data-t="mortgage">房贷计算器</a>
+<a href="tax.html" data-t="tax">个税计算器</a>
+<a href="bmi.html" class="active" data-t="bmi">BMI计算器</a>
+<a href="unit.html" data-t="unit">单位换算</a>
+<a href="countdown.html" data-t="countdown">倒计时</a>
+<button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+</nav>
+</div></header>
+
+<div class="container">
+<h1 data-t="bmiTitle">BMI计算器 — 身体质量指数</h1>
+<p class="subtitle" data-t="bmiSub">输入身高体重，获取BMI值和健康建议</p>
+
+<div class="card">
+  <div class="form-row">
+    <div class="form-group"><label data-t="height">身高（cm）</label><input type="number" id="height" value="170" min="50" max="250"></div>
+    <div class="form-group"><label data-t="weight">体重（kg）</label><input type="number" id="weight" value="65" min="10" max="300" step="0.1"></div>
+  </div>
+  <button class="btn" onclick="calcBMI()" data-t="calculate">计算</button>
+</div>
+
+<div id="result" style="display:none">
+  <div class="card">
+    <div class="result-box" style="text-align:center">
+      <div class="label" data-t="yourBmi">你的BMI</div>
+      <div class="big" id="bmiValue"></div>
+      <div id="bmiCategory" style="font-size:1.1rem;font-weight:600;margin-top:.25rem"></div>
+    </div>
+    <div class="bmi-gauge">
+      <div class="bmi-marker" id="bmiMarker"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--gray-500)">
+      <span>15</span><span data-t="underweight">偏瘦</span><span>18.5</span><span data-t="normal">正常</span><span>24</span><span data-t="overweight">偏胖</span><span>28</span><span data-t="obese">肥胖</span><span>40</span>
+    </div>
+    <p id="bmiAdvice" style="margin-top:1rem;padding:1rem;background:var(--gray-100);border-radius:8px;font-size:.9rem"></p>
+  </div>
+
+  <div class="card">
+    <h2>BMI 分类参考（中国标准）</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>分类</th><th>BMI 范围</th></tr></thead>
+      <tbody>
+        <tr><td>偏瘦</td><td>&lt; 18.5</td></tr>
+        <tr><td>正常</td><td>18.5 – 23.9</td></tr>
+        <tr><td>偏胖</td><td>24.0 – 27.9</td></tr>
+        <tr><td>肥胖</td><td>≥ 28.0</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<section class="faq">
+<h2>FAQ</h2>
+<details><summary>BMI正常范围是多少？</summary><p>中国标准18.5-23.9为正常，WHO标准18.5-24.9。</p></details>
+<details><summary>BMI计算公式？</summary><p>BMI = 体重(kg) ÷ 身高(m)²</p></details>
+<details><summary>BMI有局限性吗？</summary><p>BMI不区分肌肉和脂肪，运动员可能偏高但健康。建议结合体脂率判断。</p></details>
+</section>
+</div>
+
+<div class="donate"><p data-t="donateTip">☕ 觉得好用？打赏一杯咖啡</p><p><span data-t="donateAddr">ETH/USDT 打赏地址:</span> <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<footer class="footer" data-t="footer">© 2026 CalcSmart 智算 · 免费在线计算器</footer>
+
+<script src="i18n.js"></script>
+<script>
+function calcBMI() {
+  const h = parseFloat(document.getElementById('height').value) / 100;
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!h || !w) return;
+  const bmi = w / (h * h);
+  document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+  
+  let cat, catKey, adviceKey, color;
+  if (bmi < 18.5) { catKey='underweight'; adviceKey='bmiAdviceUnder'; color='#3b82f6'; }
+  else if (bmi < 24) { catKey='normal'; adviceKey='bmiAdviceNormal'; color='#22c55e'; }
+  else if (bmi < 28) { catKey='overweight'; adviceKey='bmiAdviceOver'; color='#f59e0b'; }
+  else { catKey='obese'; adviceKey='bmiAdviceObese'; color='#ef4444'; }
+  
+  document.getElementById('bmiCategory').textContent = t(catKey);
+  document.getElementById('bmiCategory').style.color = color;
+  document.getElementById('bmiAdvice').textContent = t(adviceKey);
+  
+  // Gauge marker: map BMI 15-40 to 0-100%
+  const pct = Math.min(100, Math.max(0, (bmi - 15) / 25 * 100));
+  document.getElementById('bmiMarker').style.left = pct + '%';
+  
+  document.getElementById('result').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', calcBMI);
+</script>
+</body>
+</html>

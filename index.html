@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalcSmart 智算 — 免费在线计算器合集</title>
+<meta name="description" content="免费在线计算器：房贷计算器、个税计算器2026、BMI计算器、单位换算、纪念日倒计时。精准快速，无广告。">
+<meta name="keywords" content="在线计算器,房贷计算器,个税计算器2026,BMI计算器,单位换算,倒计时">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"CalcSmart 智算","url":"https://rorojiao.github.io/calcsmart/","description":"免费在线实用计算器合集","potentialAction":{"@type":"SearchAction","target":"https://rorojiao.github.io/calcsmart/?q={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"CalcSmart有哪些计算器？","acceptedAnswer":{"@type":"Answer","text":"包括房贷计算器（等额本息/等额本金）、个人所得税计算器（2026最新税率）、BMI身体质量指数计算器、万能单位换算器、纪念日倒计时工具。"}},
+{"@type":"Question","name":"CalcSmart是免费的吗？","acceptedAnswer":{"@type":"Answer","text":"完全免费，无广告，无需注册，所有计算在浏览器本地完成，不上传任何数据。"}},
+{"@type":"Question","name":"支持手机使用吗？","acceptedAnswer":{"@type":"Answer","text":"支持。CalcSmart采用响应式设计，在手机、平板、电脑上均有良好体验。"}}
+]}
+</script>
+</head>
+<body>
+<div id="app">
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ <span data-t="siteName">CalcSmart 智算</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav">
+<a href="index.html" class="active" data-t="home">首页</a>
+<a href="mortgage.html" data-t="mortgage">房贷计算器</a>
+<a href="tax.html" data-t="tax">个税计算器</a>
+<a href="bmi.html" data-t="bmi">BMI计算器</a>
+<a href="unit.html" data-t="unit">单位换算</a>
+<a href="countdown.html" data-t="countdown">倒计时</a>
+<button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+</nav>
+</div></header>
+
+<div class="container-wide">
+<h1 data-t="indexTitle">免费在线计算器合集</h1>
+<p class="subtitle" data-t="indexSub">精准、快速、好用的在线计算工具</p>
+
+<div class="calc-grid">
+  <a href="mortgage.html" class="calc-card"><div class="icon">🏠</div><h2 data-t="mortgage">房贷计算器</h2><p data-t="mortgageDesc">等额本息/等额本金，月供与还款明细</p></a>
+  <a href="tax.html" class="calc-card"><div class="icon">💰</div><h2 data-t="tax">个税计算器</h2><p data-t="taxDesc">2026中国个税，专项扣除，到手工资</p></a>
+  <a href="bmi.html" class="calc-card"><div class="icon">⚖️</div><h2 data-t="bmi">BMI计算器</h2><p data-t="bmiDesc">身高体重计算BMI，健康建议</p></a>
+  <a href="unit.html" class="calc-card"><div class="icon">📐</div><h2 data-t="unit">单位换算</h2><p data-t="unitDesc">长度、重量、温度等万能换算</p></a>
+  <a href="countdown.html" class="calc-card"><div class="icon">📅</div><h2 data-t="countdown">倒计时</h2><p data-t="countdownDesc">纪念日、倒计时、在一起多少天</p></a>
+</div>
+</div>
+
+<div class="donate"><p data-t="donateTip">☕ 觉得好用？打赏一杯咖啡</p><p><span data-t="donateAddr">ETH/USDT 打赏地址:</span> <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<footer class="footer" data-t="footer">© 2026 CalcSmart 智算 · 免费在线计算器</footer>
+</div>
+<script src="i18n.js"></script>
+<div data-t-title="siteName" style="display:none"></div>
+</body>
+</html>

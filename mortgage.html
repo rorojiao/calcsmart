@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房贷计算器在线 — 等额本息/等额本金月供计算 | CalcSmart</title>
+<meta name="description" content="免费房贷计算器：支持等额本息、等额本金两种方式，计算月供、总利息、还款明细表，附可视化图表。">
+<meta name="keywords" content="房贷计算器,房贷计算器在线,月供计算器,等额本息,等额本金,贷款计算器">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/mortgage.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"等额本息和等额本金有什么区别？","acceptedAnswer":{"@type":"Answer","text":"等额本息每月还款额固定，前期利息占比高；等额本金每月还款额递减，前期还款多但总利息少。"}},
+{"@type":"Question","name":"房贷利率一般是多少？","acceptedAnswer":{"@type":"Answer","text":"2026年中国首套房贷利率约3.0%-3.5%，二套约3.5%-4.0%，具体以各银行公告为准。"}},
+{"@type":"Question","name":"提前还贷划算吗？","acceptedAnswer":{"@type":"Answer","text":"如果贷款利率高于理财收益率，提前还贷通常划算。等额本息前1/3期限内提前还贷节省利息最多。"}}
+]}
+</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ <span data-t="siteName">CalcSmart 智算</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav">
+<a href="index.html" data-t="home">首页</a>
+<a href="mortgage.html" class="active" data-t="mortgage">房贷计算器</a>
+<a href="tax.html" data-t="tax">个税计算器</a>
+<a href="bmi.html" data-t="bmi">BMI计算器</a>
+<a href="unit.html" data-t="unit">单位换算</a>
+<a href="countdown.html" data-t="countdown">倒计时</a>
+<button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+</nav>
+</div></header>
+
+<div class="container">
+<h1 data-t="mortgageTitle">房贷计算器 — 在线计算月供</h1>
+<p class="subtitle" data-t="mortgageSub">支持等额本息和等额本金两种还款方式</p>
+
+<div class="card">
+  <div class="radio-group">
+    <label><input type="radio" name="method" value="equal" checked><span data-t="equalPayment">等额本息</span></label>
+    <label><input type="radio" name="method" value="principal"><span data-t="equalPrincipal">等额本金</span></label>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label data-t="loanAmount">贷款金额（万元）</label><input type="number" id="loan" value="100" min="1"></div>
+    <div class="form-group"><label data-t="loanYears">贷款年限（年）</label><input type="number" id="years" value="30" min="1" max="50"></div>
+  </div>
+  <div class="form-group"><label data-t="annualRate">年利率（%）</label><input type="number" id="rate" value="3.1" step="0.01" min="0.01"></div>
+  <button class="btn" onclick="calcMortgage()" data-t="calculate">计算</button>
+</div>
+
+<div id="result" style="display:none">
+  <div class="card">
+    <div class="result-box"><div class="result-grid" id="summary"></div></div>
+  </div>
+  <div class="card">
+    <h2 data-t="paymentChart">月供走势图</h2>
+    <div class="bar-chart" id="chart"></div>
+  </div>
+  <div class="card">
+    <h2 data-t="repaySchedule">还款明细表</h2>
+    <div class="table-wrap"><table id="schedule"></table></div>
+  </div>
+</div>
+
+<section class="faq">
+<h2>FAQ</h2>
+<details><summary>等额本息和等额本金有什么区别？</summary><p>等额本息每月还款额固定，前期利息占比高；等额本金每月还款额递减，前期还款多但总利息少。</p></details>
+<details><summary>房贷利率一般是多少？</summary><p>2026年中国首套房贷利率约3.0%-3.5%，具体以各银行公告为准。</p></details>
+<details><summary>提前还贷划算吗？</summary><p>如果贷款利率高于理财收益率，提前还贷通常划算。等额本息前1/3期限内提前还贷节省利息最多。</p></details>
+</section>
+</div>
+
+<div class="donate"><p data-t="donateTip">☕ 觉得好用？打赏一杯咖啡</p><p><span data-t="donateAddr">ETH/USDT 打赏地址:</span> <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<footer class="footer" data-t="footer">© 2026 CalcSmart 智算 · 免费在线计算器</footer>
+
+<script src="i18n.js"></script>
+<script>
+function calcMortgage() {
+  const P = parseFloat(document.getElementById('loan').value) * 10000;
+  const Y = parseInt(document.getElementById('years').value);
+  const N = Y * 12;
+  const r = parseFloat(document.getElementById('rate').value) / 100 / 12;
+  const method = document.querySelector('input[name="method"]:checked').value;
+  
+  let rows = [];
+  let totalInterest = 0, totalPayment = 0;
+  let bal = P;
+
+  if (method === 'equal') {
+    const M = P * r * Math.pow(1+r, N) / (Math.pow(1+r, N) - 1);
+    for (let i = 1; i <= N; i++) {
+      const intPart = bal * r;
+      const prinPart = M - intPart;
+      bal -= prinPart;
+      totalInterest += intPart;
+      rows.push({ m: i, payment: M, principal: prinPart, interest: intPart, balance: Math.max(0, bal) });
+    }
+    totalPayment = M * N;
+    document.getElementById('summary').innerHTML = `
+      <div><div class="label" data-t="monthlyPayment">${t('monthlyPayment')}</div><div class="big">${fmt(M)}</div></div>
+      <div><div class="label" data-t="totalInterest">${t('totalInterest')}</div><div class="big">${fmt(totalInterest)}</div></div>
+      <div><div class="label" data-t="totalPayment">${t('totalPayment')}</div><div class="big">${fmt(totalPayment)}</div></div>`;
+  } else {
+    const prinPerMonth = P / N;
+    for (let i = 1; i <= N; i++) {
+      const intPart = bal * r;
+      const M = prinPerMonth + intPart;
+      bal -= prinPerMonth;
+      totalInterest += intPart;
+      rows.push({ m: i, payment: M, principal: prinPerMonth, interest: intPart, balance: Math.max(0, bal) });
+    }
+    totalPayment = P + totalInterest;
+    document.getElementById('summary').innerHTML = `
+      <div><div class="label" data-t="firstMonth">${t('firstMonth')}</div><div class="big">${fmt(rows[0].payment)}</div></div>
+      <div><div class="label" data-t="lastMonth">${t('lastMonth')}</div><div class="big">${fmt(rows[N-1].payment)}</div></div>
+      <div><div class="label" data-t="totalInterest">${t('totalInterest')}</div><div class="big">${fmt(totalInterest)}</div></div>`;
+  }
+
+  // Chart
+  const maxPay = Math.max(...rows.map(r => r.payment));
+  const step = Math.max(1, Math.floor(N / 120));
+  let bars = '';
+  for (let i = 0; i < N; i += step) {
+    const r = rows[i];
+    const h = (r.payment / maxPay * 100).toFixed(1);
+    const ih = (r.interest / maxPay * 100).toFixed(1);
+    bars += `<div class="bar" style="height:${h}%" title="${t('month')}${r.m}: ${fmt(r.payment)}"></div>`;
+  }
+  document.getElementById('chart').innerHTML = bars;
+
+  // Table
+  let html = `<thead><tr><th data-t="month">${t('month')}</th><th data-t="monthlyPayment">${t('monthlyPayment')}</th><th data-t="principal">${t('principal')}</th><th data-t="interest">${t('interest')}</th><th data-t="balance">${t('balance')}</th></tr></thead><tbody>`;
+  const showStep = N > 60 ? 12 : (N > 24 ? 6 : 1);
+  for (let i = 0; i < N; i += showStep) {
+    const r = rows[i];
+    html += `<tr><td>${r.m}</td><td>${fmt(r.payment)}</td><td>${fmt(r.principal)}</td><td>${fmt(r.interest)}</td><td>${fmt(r.balance)}</td></tr>`;
+  }
+  html += '</tbody>';
+  document.getElementById('schedule').innerHTML = html;
+  document.getElementById('result').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', calcMortgage);
+</script>
+</body>
+</html>

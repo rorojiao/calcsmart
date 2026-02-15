@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纪念日倒计时计算器 — 在一起多少天 | CalcSmart</title>
+<meta name="description" content="纪念日倒计时计算器：计算两个日期之间的天数，生成精美分享卡片。恋爱纪念日、生日倒计时。">
+<meta name="keywords" content="纪念日计算器,倒计时,在一起多少天,日期计算器,天数计算">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/countdown.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"怎么计算两个日期之间的天数？","acceptedAnswer":{"@type":"Answer","text":"输入开始日期和结束日期，系统会自动计算两个日期之间的天数差。"}},
+{"@type":"Question","name":"可以分享结果吗？","acceptedAnswer":{"@type":"Answer","text":"可以！计算后会生成分享卡片和文字，一键复制分享给朋友。"}}
+]}
+</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ <span data-t="siteName">CalcSmart 智算</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav">
+<a href="index.html" data-t="home">首页</a>
+<a href="mortgage.html" data-t="mortgage">房贷计算器</a>
+<a href="tax.html" data-t="tax">个税计算器</a>
+<a href="bmi.html" data-t="bmi">BMI计算器</a>
+<a href="unit.html" data-t="unit">单位换算</a>
+<a href="countdown.html" class="active" data-t="countdown">倒计时</a>
+<button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+</nav>
+</div></header>
+
+<div class="container">
+<h1 data-t="countdownTitle">纪念日 & 倒计时计算器</h1>
+<p class="subtitle" data-t="countdownSub">计算两个日期之间的天数，生成分享卡片</p>
+
+<div class="card">
+  <div class="form-row">
+    <div class="form-group"><label data-t="startDate">开始日期</label><input type="date" id="startDate"></div>
+    <div class="form-group"><label data-t="endDate">结束日期（默认今天）</label><input type="date" id="endDate"></div>
+  </div>
+  <button class="btn" onclick="calcDays()" data-t="calculate">计算</button>
+</div>
+
+<div id="result" style="display:none">
+  <div class="share-card" id="shareCard">
+    <div class="text" id="shareText"></div>
+    <div class="days" id="dayCount"></div>
+    <div class="text" data-t="daysCount">天</div>
+  </div>
+  <div style="text-align:center;margin-top:1rem">
+    <button class="btn btn-outline btn-sm" onclick="copyShare()" data-t="copyShare">复制分享文字</button>
+    <span id="copyMsg" style="margin-left:.5rem;color:var(--blue);font-size:.85rem"></span>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem">
+    <h2>📊 详细信息</h2>
+    <div id="details" style="font-size:.9rem;line-height:2"></div>
+  </div>
+</div>
+
+<section class="faq">
+<h2>FAQ</h2>
+<details><summary>怎么计算两个日期之间的天数？</summary><p>输入开始和结束日期，系统自动计算天数差。</p></details>
+<details><summary>可以分享结果吗？</summary><p>计算后点击"复制分享文字"即可一键分享。</p></details>
+</section>
+</div>
+
+<div class="donate"><p data-t="donateTip">☕ 觉得好用？打赏一杯咖啡</p><p><span data-t="donateAddr">ETH/USDT 打赏地址:</span> <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<footer class="footer" data-t="footer">© 2026 CalcSmart 智算 · 免费在线计算器</footer>
+
+<script src="i18n.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('endDate').value = today;
+  // Default: 1 year ago
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - 1);
+  document.getElementById('startDate').value = d.toISOString().split('T')[0];
+  calcDays();
+});
+
+function calcDays() {
+  const s = new Date(document.getElementById('startDate').value);
+  const e = new Date(document.getElementById('endDate').value || new Date().toISOString().split('T')[0]);
+  if (isNaN(s)) return;
+  
+  const diff = e - s;
+  const days = Math.round(diff / 86400000);
+  const absDays = Math.abs(days);
+  
+  document.getElementById('dayCount').textContent = absDays;
+  
+  if (days >= 0) {
+    document.getElementById('shareText').textContent = t('togetherText');
+    document.getElementById('shareCard').style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
+  } else {
+    document.getElementById('shareText').textContent = t('daysUntil');
+    document.getElementById('shareCard').style.background = 'linear-gradient(135deg, #059669, #2563eb)';
+  }
+
+  // Details
+  const weeks = Math.floor(absDays / 7);
+  const months = Math.round(absDays / 30.44);
+  const hours = absDays * 24;
+  const detailsZh = `📅 共 <b>${absDays}</b> 天 ≈ <b>${weeks}</b> 周 ≈ <b>${months}</b> 个月<br>⏰ 约 <b>${hours.toLocaleString()}</b> 小时<br>💕 从 ${document.getElementById('startDate').value} 到 ${document.getElementById('endDate').value || '今天'}`;
+  const detailsEn = `📅 Total <b>${absDays}</b> days ≈ <b>${weeks}</b> weeks ≈ <b>${months}</b> months<br>⏰ About <b>${hours.toLocaleString()}</b> hours<br>💕 From ${document.getElementById('startDate').value} to ${document.getElementById('endDate').value || 'today'}`;
+  document.getElementById('details').innerHTML = lang === 'zh' ? detailsZh : detailsEn;
+  
+  document.getElementById('result').style.display = 'block';
+}
+
+function copyShare() {
+  const days = document.getElementById('dayCount').textContent;
+  const text = `${t('togetherText')} ${days} ${t('daysCount')} 💕 — CalcSmart`;
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('copyMsg').textContent = t('copied');
+    setTimeout(() => document.getElementById('copyMsg').textContent = '', 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个税计算器2026 — 中国个人所得税在线计算 | CalcSmart</title>
+<meta name="description" content="2026最新个税计算器：输入税前月薪，自动计算五险一金、专项扣除后的到手工资。支持年度汇算。">
+<meta name="keywords" content="个税计算器,个税计算器2026,个人所得税计算器,到手工资计算,税后工资">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/tax.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"2026年个税起征点是多少？","acceptedAnswer":{"@type":"Answer","text":"中国个税起征点为每月5000元（每年60000元），超出部分按累进税率计算。"}},
+{"@type":"Question","name":"专项附加扣除包括哪些？","acceptedAnswer":{"@type":"Answer","text":"包括子女教育、继续教育、大病医疗、住房贷款利息、住房租金、赡养老人、3岁以下婴幼儿照护7项。"}},
+{"@type":"Question","name":"五险一金个人缴纳比例是多少？","acceptedAnswer":{"@type":"Answer","text":"一般为工资的约22%（养老8%+医疗2%+失业0.5%+公积金5-12%），各地略有差异。"}}
+]}
+</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ <span data-t="siteName">CalcSmart 智算</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav">
+<a href="index.html" data-t="home">首页</a>
+<a href="mortgage.html" data-t="mortgage">房贷计算器</a>
+<a href="tax.html" class="active" data-t="tax">个税计算器</a>
+<a href="bmi.html" data-t="bmi">BMI计算器</a>
+<a href="unit.html" data-t="unit">单位换算</a>
+<a href="countdown.html" data-t="countdown">倒计时</a>
+<button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+</nav>
+</div></header>
+
+<div class="container">
+<h1 data-t="taxTitle">个人所得税计算器 2026</h1>
+<p class="subtitle" data-t="taxSub">中国个税计算，输入月薪算到手工资</p>
+
+<div class="card">
+  <div class="form-group"><label data-t="monthlySalary">税前月薪（元）</label><input type="number" id="salary" value="15000" min="0"></div>
+  <div class="form-row">
+    <div class="form-group"><label data-t="socialInsurance">五险一金（元/月）</label><input type="number" id="insurance" value="3000" min="0"></div>
+    <div class="form-group"><label data-t="specialDeduction">专项附加扣除（元/月）</label><input type="number" id="deduction" value="1500" min="0"></div>
+  </div>
+  <button class="btn" onclick="calcTax()" data-t="calculate">计算</button>
+</div>
+
+<div id="result" style="display:none">
+  <div class="card">
+    <div class="result-box"><div class="result-grid" id="summary"></div></div>
+  </div>
+  <div class="card">
+    <h2>税率表</h2>
+    <div class="table-wrap"><table id="taxTable"></table></div>
+  </div>
+</div>
+
+<section class="faq">
+<h2>FAQ</h2>
+<details><summary>2026年个税起征点是多少？</summary><p>每月5000元（每年60000元），超出部分按7级累进税率计算。</p></details>
+<details><summary>专项附加扣除包括哪些？</summary><p>子女教育、继续教育、大病医疗、住房贷款利息、住房租金、赡养老人、3岁以下婴幼儿照护共7项。</p></details>
+<details><summary>五险一金个人缴纳比例？</summary><p>一般约为工资的22%（养老8%+医疗2%+失业0.5%+公积金5-12%），各地有差异。</p></details>
+</section>
+</div>
+
+<div class="donate"><p data-t="donateTip">☕ 觉得好用？打赏一杯咖啡</p><p><span data-t="donateAddr">ETH/USDT 打赏地址:</span> <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<footer class="footer" data-t="footer">© 2026 CalcSmart 智算 · 免费在线计算器</footer>
+
+<script src="i18n.js"></script>
+<script>
+// China 2026 tax brackets (annual taxable income)
+const BRACKETS = [
+  [36000,   0.03, 0],
+  [144000,  0.10, 2520],
+  [300000,  0.20, 16920],
+  [420000,  0.25, 31920],
+  [660000,  0.30, 52920],
+  [960000,  0.35, 85920],
+  [Infinity,0.45, 181920]
+];
+
+function calcAnnualTax(annualTaxable) {
+  if (annualTaxable <= 0) return 0;
+  for (const [limit, rate, deduct] of BRACKETS) {
+    if (annualTaxable <= limit) return annualTaxable * rate - deduct;
+  }
+  return 0;
+}
+
+function calcTax() {
+  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+  const deduction = parseFloat(document.getElementById('deduction').value) || 0;
+  
+  const monthlyTaxable = salary - insurance - deduction - 5000;
+  const annualTaxable = Math.max(0, monthlyTaxable * 12);
+  const annualTax = calcAnnualTax(annualTaxable);
+  const monthlyTax = annualTax / 12;
+  const takeHome = salary - insurance - monthlyTax;
+
+  document.getElementById('summary').innerHTML = `
+    <div><div class="label" data-t="takeHome">${t('takeHome')}</div><div class="big">${fmt(takeHome)}</div></div>
+    <div><div class="label" data-t="monthlyTax">${t('monthlyTax')}</div><div class="big">${fmt(monthlyTax)}</div></div>
+    <div><div class="label" data-t="taxableIncome">${t('taxableIncome')}</div><div class="big">${fmt(Math.max(0,monthlyTaxable))}</div></div>
+    <div><div class="label" data-t="annualTax">${t('annualTax')}</div><div class="big">${fmt(annualTax)}</div></div>
+    <div><div class="label" data-t="annualTakeHome">${t('annualTakeHome')}</div><div class="big">${fmt(takeHome*12)}</div></div>`;
+
+  // Tax bracket table
+  const levels = ['≤36,000','36K-144K','144K-300K','300K-420K','420K-660K','660K-960K','>960,000'];
+  const rates = ['3%','10%','20%','25%','30%','35%','45%'];
+  let html = '<thead><tr><th>级数</th><th>年应纳税所得额</th><th>税率</th><th>速算扣除数</th></tr></thead><tbody>';
+  BRACKETS.forEach((b, i) => {
+    const active = annualTaxable > 0 && (i === 0 ? annualTaxable <= b[0] : annualTaxable <= b[0] && annualTaxable > BRACKETS[i-1][0]);
+    html += `<tr style="${active?'background:var(--blue-light)':''}"><td>${i+1}</td><td>${levels[i]}</td><td>${rates[i]}</td><td>${fmt(b[2])}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('taxTable').innerHTML = html;
+  document.getElementById('result').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', calcTax);
+</script>
+</body>
+</html>
