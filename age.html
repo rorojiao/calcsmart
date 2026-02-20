@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>年龄计算器在线 — 精确计算周岁虚岁 | CalcSmart</title>
+<meta name="description" content="免费在线年龄计算器，输入出生日期精确计算周岁、虚岁、总天数。">
+<meta name="keywords" content="年龄计算器,周岁计算,虚岁计算">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/age.html">
+<link rel="stylesheet" href="style.css">
+<meta property="og:title" content="年龄计算器在线 — 精确计算周岁虚岁 | CalcSmart">
+<meta property="og:description" content="免费在线年龄计算器，输入出生日期精确计算周岁、虚岁、总天数。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rorojiao.github.io/calcsmart/age.html">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"年龄计算器在线","url":"https://rorojiao.github.io/calcsmart/age.html","description":"免费在线年龄计算器，输入出生日期精确计算周岁、虚岁、总天数。"}</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ CalcSmart 智算</a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav"><a href="index.html">首页</a><a href="mortgage.html">房贷</a><a href="tax.html">个税</a><a href="bmi.html">BMI</a><a href="unit.html">换算</a><a href="age.html" class=active>年龄</a><a href="interest.html">利息</a><a href="salary.html">工资</a><a href="percentage.html">百分比</a><a href="random.html">随机数</a></nav>
+</div></header>
+<div class="container">
+<h1>年龄计算器</h1><p class="subtitle">输入出生日期，计算周岁、虚岁、总天数</p><div class="card"><div class="form-group"><label>出生日期</label><input type="date" id="bd"></div><button class="btn" onclick="calc()">计算</button><div id="r" style="margin-top:20px;font-size:18px"></div></div><div class="card" style="margin-top:20px"><h2>说明</h2><p>周岁：国际通用，出生为0岁。虚岁：中国传统，出生为1岁。法律以周岁为准。</p><p><strong>退休年龄</strong>：男60岁，女工人50岁。<strong>结婚年龄</strong>：男22，女20周岁。</p></div><script>function calc(){const bd=new Date(document.getElementById("bd").value);if(isNaN(bd)){alert("请选择日期");return}const now=new Date(),days=Math.floor((now-bd)/864e5);let y=now.getFullYear()-bd.getFullYear(),m=now.getMonth()-bd.getMonth(),d=now.getDate()-bd.getDate();if(d<0){m--;d+=new Date(now.getFullYear(),now.getMonth(),0).getDate()}if(m<0){y--;m+=12}const nx=new Date(now.getFullYear(),bd.getMonth(),bd.getDate());if(nx<=now)nx.setFullYear(nx.getFullYear()+1);document.getElementById("r").innerHTML="<p>🎂 周岁：<b>"+y+"岁"+m+"月"+d+"天</b></p><p>📅 虚岁：<b>"+(y+1)+"岁</b></p><p>⏱️ 已过：<b>"+days.toLocaleString()+"天</b></p><p>🎉 距下次生日：<b>"+Math.ceil((nx-now)/864e5)+"天</b></p>"}</script>
+</div>
+<div class="more-tools" style="max-width:800px;margin:40px auto;padding:20px;background:#f8f9fa;border-radius:12px;text-align:center">
+<h3 style="margin-bottom:12px">🔗 更多免费工具</h3>
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="https://rorojiao.github.io/healthcalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">💪健康</a>
+<a href="https://rorojiao.github.io/devtoolbox/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🛠️开发</a>
+<a href="https://rorojiao.github.io/unitswitch/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔄换算</a>
+<a href="https://rorojiao.github.io/fortune-tools/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔮算命</a>
+<a href="https://rorojiao.github.io/datecalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">📅日期</a>
+<a href="https://rorojiao.github.io/namegenius/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">✨起名</a>
+<a href="https://rorojiao.github.io/cryptogauge/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">₿加密</a></div></div>
+<div class="donate"><p>☕ 觉得好用？打赏一杯咖啡</p><p>ETH/USDT: <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<div style="text-align:center;margin:20px auto;max-width:728px;"><iframe data-aa="2427662" src="//acceptable.a-ads.com/2427662/?size=Adaptive" style="border:0;padding:0;width:100%;height:auto;min-height:60px;overflow:hidden;display:block;margin:auto;"></iframe></div>
+<footer class="footer">© 2026 CalcSmart 智算</footer>
+<script>fetch("https://site-analytics.cap.1ktower.com/hit?s="+encodeURIComponent(location.hostname)+"&p="+encodeURIComponent(location.pathname)).catch(()=>{})</script>
+</body>
+</html>

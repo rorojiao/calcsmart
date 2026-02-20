@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>面积计算器 | CalcSmart</title>
+<meta name="description" content="在线面积计算器，圆矩形三角形。">
+<meta name="keywords" content="面积计算器,面积公式">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/area-calc.html">
+<link rel="stylesheet" href="style.css">
+<meta property="og:title" content="面积计算器 | CalcSmart">
+<meta property="og:description" content="在线面积计算器，圆矩形三角形。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rorojiao.github.io/calcsmart/area-calc.html">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"面积计算器","url":"https://rorojiao.github.io/calcsmart/area-calc.html","description":"在线面积计算器，圆矩形三角形。"}</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ CalcSmart 智算</a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav"><a href="index.html">首页</a><a href="mortgage.html">房贷</a><a href="tax.html">个税</a><a href="bmi.html">BMI</a><a href="unit.html">换算</a><a href="age.html">年龄</a><a href="interest.html">利息</a><a href="salary.html">工资</a><a href="percentage.html">百分比</a><a href="random.html">随机数</a></nav>
+</div></header>
+<div class="container">
+<h1>面积计算器</h1><p class="subtitle">选择图形</p><div class="card"><select id="s" onchange="show()" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:15px"><option value="rect">长方形</option><option value="circle">圆</option><option value="tri">三角形</option></select><div id="f"></div><button class="btn" onclick="calc()">算</button><div id="r" style="margin-top:15px;font-size:20px;color:#2563eb"></div></div><script>const S={rect:{f:[["长","l",10],["宽","w",5]],c:v=>v.l*v.w},circle:{f:[["半径","r",5]],c:v=>Math.PI*v.r*v.r},tri:{f:[["底","b",10],["高","h",6]],c:v=>v.b*v.h/2}};function show(){const s=S[document.getElementById("s").value];document.getElementById("f").innerHTML=s.f.map(([l,id,v])=>"<div class=form-group><label>"+l+"</label><input type=number id=s_"+id+" value="+v+"></div>").join("")}show();function calc(){const s=S[document.getElementById("s").value],v={};s.f.forEach(([,id])=>v[id]=+document.getElementById("s_"+id).value);document.getElementById("r").innerHTML="面积 = <b>"+s.c(v).toFixed(4)+"</b>"}</script>
+</div>
+<div class="more-tools" style="max-width:800px;margin:40px auto;padding:20px;background:#f8f9fa;border-radius:12px;text-align:center">
+<h3 style="margin-bottom:12px">🔗 更多免费工具</h3>
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="https://rorojiao.github.io/healthcalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">💪健康</a>
+<a href="https://rorojiao.github.io/devtoolbox/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🛠️开发</a>
+<a href="https://rorojiao.github.io/unitswitch/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔄换算</a>
+<a href="https://rorojiao.github.io/fortune-tools/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔮算命</a>
+<a href="https://rorojiao.github.io/datecalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">📅日期</a>
+<a href="https://rorojiao.github.io/namegenius/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">✨起名</a>
+<a href="https://rorojiao.github.io/cryptogauge/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">₿加密</a></div></div>
+<div class="donate"><p>☕ 觉得好用？打赏一杯咖啡</p><p>ETH/USDT: <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<div style="text-align:center;margin:20px auto;max-width:728px;"><iframe data-aa="2427662" src="//acceptable.a-ads.com/2427662/?size=Adaptive" style="border:0;padding:0;width:100%;height:auto;min-height:60px;overflow:hidden;display:block;margin:auto;"></iframe></div>
+<footer class="footer">© 2026 CalcSmart 智算</footer>
+<script>fetch("https://site-analytics.cap.1ktower.com/hit?s="+encodeURIComponent(location.hostname)+"&p="+encodeURIComponent(location.pathname)).catch(()=>{})</script>
+</body>
+</html>

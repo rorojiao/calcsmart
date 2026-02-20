@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>税后工资计算器 — 五险一金到手 | CalcSmart</title>
+<meta name="description" content="2026税后工资计算器，五险一金个税到手工资。">
+<meta name="keywords" content="税后工资,到手工资,五险一金">
+<link rel="canonical" href="https://rorojiao.github.io/calcsmart/salary.html">
+<link rel="stylesheet" href="style.css">
+<meta property="og:title" content="税后工资计算器 — 五险一金到手 | CalcSmart">
+<meta property="og:description" content="2026税后工资计算器，五险一金个税到手工资。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rorojiao.github.io/calcsmart/salary.html">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"税后工资计算器","url":"https://rorojiao.github.io/calcsmart/salary.html","description":"2026税后工资计算器，五险一金个税到手工资。"}</script>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<a href="index.html" class="logo">⚡ CalcSmart 智算</a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+<nav class="nav"><a href="index.html">首页</a><a href="mortgage.html">房贷</a><a href="tax.html">个税</a><a href="bmi.html">BMI</a><a href="unit.html">换算</a><a href="age.html">年龄</a><a href="interest.html">利息</a><a href="salary.html" class=active>工资</a><a href="percentage.html">百分比</a><a href="random.html">随机数</a></nav>
+</div></header>
+<div class="container">
+<h1>税后工资计算器</h1><p class="subtitle">2026最新</p><div class="card"><div class="form-row"><div class="form-group"><label>税前月薪(元)</label><input type="number" id="g" value="15000"></div><div class="form-group"><label>公积金%</label><input type="number" id="f" value="12" min="5" max="12"></div></div><div class="form-group"><label>专项附加扣除(元/月)</label><input type="number" id="d" value="1500"></div><button class="btn" onclick="calc()">计算</button><div id="r" style="margin-top:20px;font-size:18px"></div></div><div class="card" style="margin-top:20px"><h2>说明</h2><p>五险个人：养老8%+医疗2%+失业0.5%+公积金。起征点5000元/月。</p></div><script>function calc(){const g=+document.getElementById("g").value,fr=+document.getElementById("f").value/100,d=+document.getElementById("d").value;const si=g*(0.08+0.02+0.005+fr),tx=Math.max(0,g-si-5000-d);const b=[[3000,.03,0],[12000,.1,210],[25000,.2,1410],[35000,.25,2660],[55000,.3,4410],[80000,.35,7160],[1e9,.45,15160]];let tax=0;for(const[t,r,q] of b){if(tx<=t){tax=tx*r-q;break}}tax=Math.max(0,tax);document.getElementById("r").innerHTML="<p>💼 税前：¥"+g.toLocaleString()+"</p><p>🏦 五险一金：¥"+si.toFixed(0)+"</p><p>💸 个税：¥"+tax.toFixed(2)+"</p><p>✅ 到手：<b style=color:green;font-size:24px>¥"+(g-si-tax).toFixed(2)+"</b></p>"}</script>
+</div>
+<div class="more-tools" style="max-width:800px;margin:40px auto;padding:20px;background:#f8f9fa;border-radius:12px;text-align:center">
+<h3 style="margin-bottom:12px">🔗 更多免费工具</h3>
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="https://rorojiao.github.io/healthcalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">💪健康</a>
+<a href="https://rorojiao.github.io/devtoolbox/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🛠️开发</a>
+<a href="https://rorojiao.github.io/unitswitch/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔄换算</a>
+<a href="https://rorojiao.github.io/fortune-tools/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">🔮算命</a>
+<a href="https://rorojiao.github.io/datecalc/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">📅日期</a>
+<a href="https://rorojiao.github.io/namegenius/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">✨起名</a>
+<a href="https://rorojiao.github.io/cryptogauge/" style="padding:6px 14px;background:#fff;border-radius:20px;text-decoration:none;color:#333;border:1px solid #e0e0e0;font-size:14px">₿加密</a></div></div>
+<div class="donate"><p>☕ 觉得好用？打赏一杯咖啡</p><p>ETH/USDT: <code>0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823</code></p></div>
+<div style="text-align:center;margin:20px auto;max-width:728px;"><iframe data-aa="2427662" src="//acceptable.a-ads.com/2427662/?size=Adaptive" style="border:0;padding:0;width:100%;height:auto;min-height:60px;overflow:hidden;display:block;margin:auto;"></iframe></div>
+<footer class="footer">© 2026 CalcSmart 智算</footer>
+<script>fetch("https://site-analytics.cap.1ktower.com/hit?s="+encodeURIComponent(location.hostname)+"&p="+encodeURIComponent(location.pathname)).catch(()=>{})</script>
+</body>
+</html>
